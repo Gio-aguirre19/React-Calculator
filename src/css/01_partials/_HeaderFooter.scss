@@ -1,0 +1,15 @@
+header, footer{
+  display: flex;
+  text-align: center;
+}
+header > div, footer > div{
+  flex: 1;
+}
+header{
+  justify-content: center;
+}
+footer{
+  width: 100%;
+  padding: 20px 0;
+  font-size: 12px;
+}
