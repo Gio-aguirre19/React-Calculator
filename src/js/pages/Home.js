@@ -16,6 +16,41 @@ export default class Home extends React.Component {
     })
   }
 
+  clearDisplay(){
+    this.setState({
+      displayValue: '0'
+    })
+  }
+
+  inputDot(){
+    const { displayValue } = this.state;
+
+    if(displayValue.indexOf('.') === -1){
+      this.setState({
+        displayValue: displayValue + '.'
+      })
+    }
+  }
+
+  toggleSign(){
+    const { displayValue } = this.state;
+
+    if(displayValue.indexOf('0') ===  -1){
+      this.setState({
+        displayValue: displayValue.charAt(0) === '-' ? displayValue.substr(1) : '-' + displayValue
+      })
+    }
+  }
+
+  percentSign(){
+    const { displayValue } = this.state;
+    const value = parseFloat(displayValue);
+
+    this.setState({
+      displayValue: String(value / 100)
+    })
+  }
+
   render() {
 
     const { displayValue } = this.state;
@@ -27,13 +62,13 @@ export default class Home extends React.Component {
         <div className="calculator-keypad">
           <div className="input-keys">
             <div className="function-keys">
-              <button className="calculator-key key-clear">AC</button>
-              <button className="calculator-key key-sign">±</button>
-              <button className="calculator-key key-percent">%</button>
+              <button className="calculator-key key-clear" onClick={() => this.clearDisplay()}>AC</button>
+              <button className="calculator-key key-sign" onClick={() => this.toggleSign()}>±</button>
+              <button className="calculator-key key-percent" onClick={() => this.percentSign}>%</button>
             </div>
             <div className="digit-keys">
               <button className="calculator-key key-0" onClick={() => this.inputDigit(0)}>0</button>
-              <button className="calculator-key key-dot">●</button>
+              <button className="calculator-key key-dot" onClick={() => this.inputDot()}>●</button>
               <button className="calculator-key key-1" onClick={() => this.inputDigit(1)}>1</button>
               <button className="calculator-key key-2" onClick={() => this.inputDigit(2)}>2</button>
               <button className="calculator-key key-3" onClick={() => this.inputDigit(3)}>3</button>
