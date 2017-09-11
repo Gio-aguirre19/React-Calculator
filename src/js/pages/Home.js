@@ -5,6 +5,7 @@ import React from "react";
 
 export default class Home extends React.Component {
   state = {
+    value: null,
     displayValue: '0',
     waitingOperator: false,
     operator: null
@@ -66,12 +67,34 @@ export default class Home extends React.Component {
     })
   }
 
-  operationPressed(operator){
-    const { displayValue } = this.state;
+  operationPressed(nextOperator){
+    const { displayValue, operator, value } = this.state;
+    const nextValue = parseFloat(displayValue);
+    const operations = {
+      '/': (prevValue, nextValue) => prevValue / nextValue,
+      '*': (prevValue, nextValue) => prevValue * nextValue,
+      '+': (prevValue, nextValue) => prevValue + nextValue,
+      '-': (prevValue, nextValue) => prevValue - nextValue,
+      '=': (prevValue, nextValue) => nextValue,
+    };
+
+    if (value == null){
+      this.setState({
+        value: nextValue
+      })
+    } else if (operator){
+      const currentValue = value || 0;
+      const computedValue = operations[operator](currentValue, nextValue)
+
+      this.setState({
+        value: computedValue,
+        displayValue: String(computedValue)
+      })
+    }
 
     this.setState({
       waitingOperator: true,
-      operator: operator
+      operator: nextOperator
     })
   }
 
