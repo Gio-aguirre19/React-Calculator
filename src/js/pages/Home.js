@@ -43,13 +43,15 @@ export default class Home extends React.Component {
   }
 
   percentSign(){
-    const { displayValue } = this.state;
-    const value = parseFloat(displayValue);
+    const { displayValue } = this.state
+    const value = parseFloat(displayValue)
 
     this.setState({
       displayValue: String(value / 100)
     })
   }
+
+  
 
   render() {
 
@@ -64,7 +66,7 @@ export default class Home extends React.Component {
             <div className="function-keys">
               <button className="calculator-key key-clear" onClick={() => this.clearDisplay()}>AC</button>
               <button className="calculator-key key-sign" onClick={() => this.toggleSign()}>±</button>
-              <button className="calculator-key key-percent" onClick={() => this.percentSign}>%</button>
+              <button className="calculator-key key-percent" onClick={() => this.percentSign()}>%</button>
             </div>
             <div className="digit-keys">
               <button className="calculator-key key-0" onClick={() => this.inputDigit(0)}>0</button>
