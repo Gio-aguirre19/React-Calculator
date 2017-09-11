@@ -5,15 +5,24 @@ import React from "react";
 
 export default class Home extends React.Component {
   state = {
-    displayValue: '0'
+    displayValue: '0',
+    waitingOperator: false,
+    operator: null
   }
 
   inputDigit(digit){
-    const { displayValue } = this.state;
+    const { displayValue, waitingOperator } = this.state;
 
-    this.setState({
-      displayValue: displayValue === '0' ? String(digit) : displayValue + digit
-    })
+    if (waitingOperator) {
+      this.setState({
+        displayValue: String(digit),
+        waitingOperator: false
+      })
+    } else {
+      this.setState({
+        displayValue: displayValue === '0' ? String(digit) : displayValue + digit
+      })
+    }
   }
 
   clearDisplay(){
@@ -23,11 +32,17 @@ export default class Home extends React.Component {
   }
 
   inputDot(){
-    const { displayValue } = this.state;
+    const { displayValue, waitingOperator } = this.state;
 
-    if(displayValue.indexOf('.') === -1){
+    if(waitingOperator){
       this.setState({
-        displayValue: displayValue + '.'
+        displayValue: '.',
+        waitingOperator: false
+      })
+    } else if(displayValue.indexOf('.') === -1){
+      this.setState({
+        displayValue: displayValue + '.',
+        waitingOperator: false
       })
     }
   }
@@ -43,18 +58,24 @@ export default class Home extends React.Component {
   }
 
   percentSign(){
-    const { displayValue } = this.state
-    const value = parseFloat(displayValue)
+    const { displayValue } = this.state;
+    const value = parseFloat(displayValue);
 
     this.setState({
       displayValue: String(value / 100)
     })
   }
 
-  
+  operationPressed(operator){
+    const { displayValue } = this.state;
+
+    this.setState({
+      waitingOperator: true,
+      operator: operator
+    })
+  }
 
   render() {
-
     const { displayValue } = this.state;
 
     return (
@@ -83,11 +104,11 @@ export default class Home extends React.Component {
             </div>
           </div>
           <div className="operator-keys">
-            <button className="calculator-key key-divide">÷</button>
-            <button className="calculator-key key-multiply">×</button>
-            <button className="calculator-key key-subtract">−</button>
-            <button className="calculator-key key-add">+</button>
-            <button className="calculator-key key-equals">=</button>
+            <button className="calculator-key key-divide" onClick={() => this.operationPressed('/')}>÷</button>
+            <button className="calculator-key key-multiply" onClick={() => this.operationPressed('*')}>×</button>
+            <button className="calculator-key key-subtract" onClick={() => this.operationPressed('-')}>−</button>
+            <button className="calculator-key key-add" onClick={() => this.operationPressed('+')}>+</button>
+            <button className="calculator-key key-equals" onClick={() => this.operationPressed('=')}>=</button>
           </div>
         </div>
       </div>
